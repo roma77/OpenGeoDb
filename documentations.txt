@@ -1,0 +1,10 @@
+Documentation:
+
+1. Download and import data base to your server 
+https://www.lichtblau-it.de/downloads/
+
+2. Copy files geo.php to the root directory of the your Woedpress site 
+
+3. Chrnge you setings in files geo.php for connect to OpenGeoDb database
+
+4. Run you site - for example - http://wordpress-5-2-2/geo.php
