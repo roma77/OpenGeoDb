@@ -6,7 +6,8 @@ global $newdb;
 
 // Chrnge you setings for connect to OpenGeoDb database: username, password, db_name, host
 $newdb = new wpdb('root', '', 'opengeodb', 'localhost');
-$results = '';
+
+$enter_zip_code = '';
 if( isset($_POST['zip_code']) )
 {
 	$zip_code = $_POST['zip_code'];
@@ -20,13 +21,16 @@ if( isset($_POST['zip_code']) )
 if ( $enter_zip_code ) {	
 	$lat = $enter_zip_code[0]->lat;
 	$lng = $enter_zip_code[0]->lng;
+	$city_id = $enter_zip_code[0]->city_id;
 	
 	$zip_code = $_POST['zip_code'];
 	$results_city = $newdb->get_results( "SELECT name FROM city 
-	WHERE (ACOS(SIN(PI() * $lat / 180.0) * SIN(PI() * lat / 180.0) 
+	WHERE id != $city_id 
+	AND (ACOS(SIN(PI() * $lat / 180.0) * SIN(PI() * lat / 180.0) 
 	+ COS(PI() * $lat/180.0) * COS(PI() * lat / 180.0) 
 	* COS(PI() * lng / 180.0 - PI() * $lng / 180.0)) * 6371 )
 	< 10
+ 
 	" );	
 }
 
@@ -50,7 +54,7 @@ if ( isset($_POST['zip_code']) && $enter_zip_code ) {
 	} else {
 		echo '<h3>Cityes in radius 10 km not found!</h3>';
 	}
-} elseif ( isset($_POST['zip_code']) && !$results ){
+} elseif ( isset($_POST['zip_code']) && !$enter_zip_code ){
 	?>
 	<h2>City Not Found</h2>
 	<?php
